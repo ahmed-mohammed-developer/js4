@@ -1,24 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+
+  <!-- يجعل الصفحة تتكيف مع عرض شاشة الهاتف والكمبيوتر -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>مقارنة الصورة قبل وبعد</title>
+
   <!-- ربط ملف التنسيق وملف التفاعل بالصفحة -->
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
 </head>
 <body>
-    <main class="page">
-        <header class="page__header">
-            <p class="page__eyebrow">تجربة تفاعلية</p>
-             <h1>مقارنة الصورة قبل وبعد</h1>
-            <p>حرّك الفاصل لمقارنة الصورتين.</p>
-        </header>
+  <main class="page">
+    <header class="page__header">
+      <p class="page__eyebrow">تجربة تفاعلية</p>
+      <h1>مقارنة الصورة قبل وبعد</h1>
+      <p>حرّك الفاصل لمقارنة الصورتين.</p>
+    </header>
+
     <!-- الفكرة 1: إنشاء مساحة تحتوي طبقتي الصور -->
     <section class="comparison-card" aria-label="معرض مقارنة الصور">
-        <div class="comparison">
-              <!-- صورة ما قبل التعديل، وتظهر كطبقة أساسية -->
+      <div class="comparison" data-comparison>
+        <!-- صورة ما قبل التعديل، وتظهر كطبقة أساسية -->
         <img
           class="comparison__image comparison__image--before"
           src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=85"
@@ -26,20 +31,42 @@
         />
 
         <!-- صورة ما بعد التعديل، وتكشف جزئيًا فوق الصورة الأولى -->
-            <img
+        <img
           class="comparison__image comparison__image--after"
           src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=85"
           alt="منظر طبيعي بعد التعديل"
         />
+
         <!-- تسميات تبيّن أي جهة تمثل قبل وأي جهة تمثل بعد -->
         <span class="comparison__label comparison__label--before">قبل</span>
         <span class="comparison__label comparison__label--after">بعد</span>
 
-         <!-- الخط المرئي الذي يحدد موقع الفاصل -->
+        <!-- الخط المرئي الذي يحدد موقع الفاصل -->
         <span class="comparison__divider" aria-hidden="true"></span>
-        </div>
-    </section>
 
-    </main>
+        <!--
+          الفكرة 2: عنصر range هو أداة التحكم.
+          يعمل باللمس والفأرة، ويدعم الأسهم في لوحة المفاتيح تلقائيًا.
+        -->
+        <input
+          class="comparison__range"
+          data-range
+          type="range"
+          min="0"
+          max="100"
+          step="1"
+          value="50"
+          aria-label="حرّك الفاصل لمقارنة الصورتين قبل وبعد"
+          aria-valuetext="الفاصل عند 50 بالمئة"
+        />
+      </div>
+
+      <!-- يعرض قيمة موضع الفاصل؛ JavaScript يحدّثها أثناء الحركة -->
+      <div class="comparison__footer">
+        <span>اسحب الفاصل للمقارنة</span>
+        <output class="comparison__value" data-value aria-hidden="true">50%</output>
+      </div>
+    </section>
+  </main>
 </body>
 </html>

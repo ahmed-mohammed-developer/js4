@@ -1,53 +1,64 @@
+/* توحيد طريقة حساب أبعاد العناصر */
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+  box-sizing: border-box;
 }
+
 :root {
   font-family: Arial, sans-serif;
   color: #17313a;
-  background: #f4f7f6; 
+  background: #f4f7f6;
 }
+
 body {
-     min-width: 320px;
+  min-width: 320px;
+  margin: 0;
 }
+
 .page {
-    width: min(1100px, calc(100% - 32px));
-    margin-inline: auto;
-    padding-block: 48px;
+  width: min(1100px, calc(100% - 32px));
+  margin-inline: auto;
+  padding-block: 48px;
 }
+
 .page__header {
-    margin-bottom: 24px;
+  margin-bottom: 24px;
 }
+
 .page__eyebrow {
-    margin-bottom: 8px;
-     color: #087f72;
+  margin-bottom: 8px;
+  color: #087f72;
   font-weight: bold;
 }
+
 .page__header h1 {
   margin: 0 0 12px;
   font-size: clamp(2rem, 5vw, 3.5rem);
 }
+
 .page__header > p:last-child {
   color: #526675;
   line-height: 1.7;
 }
+
 .comparison-card {
-    overflow: hidden;
-      border: 1px solid #dce5e8;
+  overflow: hidden;
+  border: 1px solid #dce5e8;
   border-radius: 18px;
   background: #ffffff;
   box-shadow: 0 18px 50px rgb(23 49 58 / 10%);
 }
+
 /* الفكرة 1: حاوية الصور، والمتغير يحدد موضع الفاصل */
 .comparison {
   --position: 50%;
+
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
   background: #dce5e8;
 }
+
 /* توضع الصورتان في المساحة نفسها لتظهر إحداهما فوق الأخرى */
 .comparison__image {
   position: absolute;
@@ -57,4 +68,171 @@ body {
   object-fit: cover;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+/*
+  الفكرة 2: نقص الصورة العلوية عند موضع الفاصل.
+  calc تحسب الجزء الذي يجب إخفاؤه من يمين الصورة.
+*/
+.comparison__image--after {
+  clip-path: inset(0 calc(100% - var(--position)) 0 0);
+}
+
+/* تسميات الصور فوق المشهد */
+.comparison__label {
+  position: absolute;
+  top: 16px;
+  z-index: 2;
+  padding: 8px 14px;
+  border: 1px solid rgb(255 255 255 / 40%);
+  border-radius: 999px;
+  color: #ffffff;
+  background: rgb(0 0 0 / 45%);
+  font-weight: bold;
+  pointer-events: none;
+}
+
+.comparison__label--before {
+  right: 16px;
+}
+
+.comparison__label--after {
+  left: 16px;
+}
+
+/* الخط العمودي يتحرك مع قيمة range */
+.comparison__divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--position);
+  z-index: 2;
+  width: 3px;
+  background: #ffffff;
+  box-shadow: 0 0 12px rgb(0 0 0 / 35%);
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+/*
+  الفكرة 2: عنصر range يغطي مساحة الصورة.
+  مساره شفاف، لذلك يبقى المشهد ظاهرًا وتظهر فقط دائرة الفاصل.
+*/
+.comparison__range {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  direction: ltr;
+  appearance: none;
+  background: transparent;
+  cursor: ew-resize;
+}
+
+/* تنسيق المسار لمتصفح Chrome وSafari */
+.comparison__range::-webkit-slider-runnable-track {
+  height: 100%;
+  background: transparent;
+}
+
+/* تنسيق المقبض لمتصفح Chrome وSafari */
+.comparison__range::-webkit-slider-thumb {
+  width: 44px;
+  height: 44px;
+  appearance: none;
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+  background: #087f72;
+  box-shadow: 0 2px 14px rgb(0 0 0 / 35%);
+  cursor: ew-resize;
+}
+
+/* تنسيق المسار لمتصفح Firefox */
+.comparison__range::-moz-range-track {
+  height: 100%;
+  background: transparent;
+}
+
+/* تنسيق المقبض لمتصفح Firefox */
+.comparison__range::-moz-range-thumb {
+  width: 36px;
+  height: 36px;
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+  background: #087f72;
+  box-shadow: 0 2px 14px rgb(0 0 0 / 35%);
+  cursor: ew-resize;
+}
+
+/* إظهار إطار واضح عند الوصول للفاصل بلوحة المفاتيح */
+.comparison__range:focus-visible {
+  outline: 3px solid #f0b544;
+  outline-offset: -5px;
+}
+
+.comparison__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  color: #526675;
+}
+
+.comparison__value {
+  color: #087f72;
+  font-weight: bold;
+}
+
+/* الفكرة 3: شكل عمودي مناسب لشاشات الهواتف */
+@media (max-width: 600px) {
+  .page {
+    width: calc(100% - 24px);
+    padding-block: 28px;
+  }
+
+  .comparison {
+    aspect-ratio: 4 / 5;
+  }
+
+  .comparison__label {
+    top: 12px;
+    padding: 7px 11px;
+    font-size: 0.9rem;
+  }
+
+  .comparison__label--before {
+    right: 12px;
+  }
+
+  .comparison__label--after {
+    left: 12px;
+  }
+
+  .comparison__range::-webkit-slider-thumb {
+    width: 40px;
+    height: 40px;
+  }
+
+  .comparison__range::-moz-range-thumb {
+    width: 32px;
+    height: 32px;
+  }
+
+  .comparison__footer {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+}
+
+/* احترام إعداد الجهاز لتقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
