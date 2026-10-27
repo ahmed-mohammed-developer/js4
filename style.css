@@ -1,0 +1,60 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+:root {
+  font-family: Arial, sans-serif;
+  color: #17313a;
+  background: #f4f7f6; 
+}
+body {
+     min-width: 320px;
+}
+.page {
+    width: min(1100px, calc(100% - 32px));
+    margin-inline: auto;
+    padding-block: 48px;
+}
+.page__header {
+    margin-bottom: 24px;
+}
+.page__eyebrow {
+    margin-bottom: 8px;
+     color: #087f72;
+  font-weight: bold;
+}
+.page__header h1 {
+  margin: 0 0 12px;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+.page__header > p:last-child {
+  color: #526675;
+  line-height: 1.7;
+}
+.comparison-card {
+    overflow: hidden;
+      border: 1px solid #dce5e8;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 18px 50px rgb(23 49 58 / 10%);
+}
+/* الفكرة 1: حاوية الصور، والمتغير يحدد موضع الفاصل */
+.comparison {
+  --position: 50%;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #dce5e8;
+}
+/* توضع الصورتان في المساحة نفسها لتظهر إحداهما فوق الأخرى */
+.comparison__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
